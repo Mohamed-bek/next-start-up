@@ -12,7 +12,7 @@ export default function NotFound(props: Props) {
           <h1 className="text-[7rem] font-bold"> Oooops !</h1>
           <p className="-mt-4 pl-2">
             {" "}
-            we con't go to here you dont have the access{" "}
+            we con&apos;t go to here you dont have the access{" "}
           </p>
           <a
             href="/login"

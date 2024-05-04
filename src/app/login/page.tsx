@@ -68,7 +68,7 @@ const Login = (props: Props) => {
             </h1>
             <p className="font-normal text-[0.9rem] text-center -translate-y-[4px]">
               {" "}
-              Let's reach those goals{" "}
+              Let&apos;s reach those goals{" "}
             </p>
             <form className="w-[70%] mx-auto mt-10">
               <label className="block text-[0.85rem] tracking-[0.9px]">
