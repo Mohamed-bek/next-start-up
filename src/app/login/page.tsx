@@ -5,7 +5,7 @@ import { FaEyeSlash } from "react-icons/fa";
 
 type Props = {};
 
-const page = (props: Props) => {
+const Login = (props: Props) => {
   const [email, setEmail] = useState<String>();
   const [emailErr, setEmailErr] = useState(false);
   const [password, setPassword] = useState<String>();
@@ -130,4 +130,4 @@ const page = (props: Props) => {
   );
 };
 
-export default page;
+export default Login;
