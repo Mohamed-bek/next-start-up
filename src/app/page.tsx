@@ -35,16 +35,6 @@ export interface IPurchase {
   }[];
 }
 
-export const getLocalStorgeToken = {
-  headers: {
-    Authorization: `${
-      typeof window !== "undefined"
-        ? JSON.parse(localStorage.getItem("accessToken") || "")
-        : ""
-    }`,
-  },
-};
-
 export interface IUser {
   _id: string;
   firstName: string;
