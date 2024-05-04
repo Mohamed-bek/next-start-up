@@ -7,7 +7,7 @@ import { FaUsers } from "react-icons/fa";
 import { PiPackageFill } from "react-icons/pi";
 import { FaUserTie } from "react-icons/fa";
 import ChartComponent from "../component/ChartComponent";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, FC } from "react";
 
 export interface IPurchase {
   _id: string;
@@ -57,7 +57,7 @@ export interface IUser {
   role: ERole;
 }
 
-export default function App() {
+const App: FC = () => {
   const storedUser = window.localStorage.getItem("user");
   const parsedUser = storedUser ? JSON.parse(storedUser) : null;
   const [user, setUser] = useState<IUser | null>(parsedUser);
@@ -521,4 +521,6 @@ export default function App() {
       </section>
     </div>
   );
-}
+};
+
+export default App;
