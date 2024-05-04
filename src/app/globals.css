@@ -1,0 +1,91 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+  --color-primary: #009245;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.sec {
+  height: calc(100vh - 97px);
+}
+
+.box2 {
+  height: calc(65% - 20px);
+}
+
+.art {
+  width: calc(100% - 70px);
+}
+.scroll {
+  height: calc(100% - 48px);
+}
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+}
+
+.Not-found {
+  width: 100%;
+  height: calc(100vh - 105px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 40px;
+}
+/* .svg{
+  position: absolute;
+  background-color: var(--test-shdow);
+  left: -100px ;
+  width: 100vh;
+  scale: 2;
+  rotate: 90deg;
+} */
+.recto {
+  height: 60vh;
+  width: 80px;
+  left: 0;
+  bottom: 0;
+}
+.circle1 {
+  width: 350px;
+  height: 50vh;
+  border-radius: 50%;
+  left: -160px;
+  bottom: 18vh;
+  transform: rotate(-34deg);
+}
+.circle2 {
+  bottom: -107px;
+  width: 350px;
+  height: 300px;
+  border-radius: 50%;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
