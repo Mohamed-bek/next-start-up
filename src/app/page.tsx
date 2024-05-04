@@ -35,6 +35,16 @@ export interface IPurchase {
   }[];
 }
 
+export const getLocalStorgeToken = {
+  headers: {
+    Authorization: `${
+      typeof window !== "undefined"
+        ? JSON.parse(localStorage.getItem("accessToken") || "")
+        : ""
+    }`,
+  },
+};
+
 export interface IUser {
   _id: string;
   firstName: string;
@@ -49,12 +59,18 @@ export interface IUser {
 }
 
 const App: FC = () => {
-  const storedUser = localStorage.getItem("user");
+  let storedUser;
+  if (typeof window !== "undefined") {
+    storedUser = localStorage.getItem("user");
+  }
+
   const parsedUser = storedUser ? JSON.parse(storedUser) : null;
   const [user, setUser] = useState<IUser | null>(parsedUser);
   useEffect(() => {
     if (!user) {
-      location.href = "/login";
+      if (typeof window !== "undefined") {
+        window.location.href = "/login";
+      }
     }
   }, [user]);
   const box1 = useRef<HTMLElement>(null);
@@ -77,9 +93,11 @@ const App: FC = () => {
       let response = await fetch("http://localhost:8000/admin-purchases", {
         method: "GET",
         headers: {
-          Authorization: `${JSON.parse(
-            localStorage.getItem("accessToken") || ""
-          )}`,
+          Authorization: `${
+            typeof window !== "undefined"
+              ? JSON.parse(localStorage.getItem("accessToken") || "")
+              : ""
+          }`,
           "Content-Type": "application/json",
         },
       });
@@ -92,37 +110,48 @@ const App: FC = () => {
           response = await fetch("http://localhost:8000/refresh_token", {
             method: "GET",
             headers: {
-              Authorization: `${JSON.parse(
-                localStorage.getItem("refreshToken") || ""
-              )}`,
+              Authorization: `${
+                typeof window !== "undefined"
+                  ? JSON.parse(localStorage.getItem("refreshToken") || "")
+                  : ""
+              }`,
               "Content-Type": "application/json",
             },
           });
           data = await response.json();
           if (response.ok) {
-            localStorage.setItem(
-              "refreshToken",
-              JSON.stringify(data.refresh_token)
-            );
-            localStorage.setItem(
-              "accessToken",
-              JSON.stringify(data.access_token)
-            );
+            if (typeof window !== "undefined") {
+              localStorage.setItem(
+                "refreshToken",
+                JSON.stringify(data.refresh_token)
+              );
+              localStorage.setItem(
+                "accessToken",
+                JSON.stringify(data.access_token)
+              );
+            }
+
             response = await fetch("http://localhost:8000/admin-purchases", {
               method: "GET",
               headers: {
-                Authorization: `${JSON.parse(
-                  localStorage.getItem("accessToken") || ""
-                )}`,
+                Authorization: `${
+                  typeof window !== "undefined"
+                    ? JSON.parse(localStorage.getItem("accessToken") || "")
+                    : ""
+                }`,
                 "Content-Type": "application/json",
               },
             });
             if (!response.ok) {
-              location.href = "/error";
+              if (typeof window !== "undefined") {
+                location.href = "/error";
+              }
             }
             data = await response.json();
           } else {
-            location.href = "/login";
+            if (typeof window !== "undefined") {
+              location.href = "/login";
+            }
           }
         }
       }
@@ -259,10 +288,12 @@ const App: FC = () => {
           </div>
           <TbLogout
             onClick={() => {
-              localStorage.removeItem("user");
-              localStorage.removeItem("accessToken");
-              localStorage.removeItem("refreshToken");
-              location.href = "/login";
+              if (typeof window !== "undefined") {
+                localStorage.removeItem("user");
+                localStorage.removeItem("accessToken");
+                localStorage.removeItem("refreshToken");
+                window.location.href = "/login";
+              }
             }}
             className="text-[1.7rem] cursor-pointer"
           />

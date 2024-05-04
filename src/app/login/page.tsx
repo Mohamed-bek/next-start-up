@@ -11,11 +11,16 @@ const Login = (props: Props) => {
   const [password, setPassword] = useState<String>();
   const [passwordErr, setPasswordErr] = useState(false);
   const [seePass, setSeePass] = useState<boolean>(false);
-  const storedUser = localStorage.getItem("user");
+  let storedUser;
+  if (typeof window !== "undefined") {
+    storedUser = localStorage.getItem("user");
+  }
   const parsedUser = storedUser ? JSON.parse(storedUser) : null;
   useEffect(() => {
     if (parsedUser) {
-      location.href = "/";
+      if (typeof window !== "undefined") {
+        location.href = "/";
+      }
     }
   });
   const Login = async (e: any) => {
@@ -40,14 +45,21 @@ const Login = (props: Props) => {
     }
     if (res.ok) {
       if (data.user.role === "admin") {
-        localStorage.setItem("user", JSON.stringify(data.user));
-        localStorage.setItem("accessToken", JSON.stringify(data.accessToken));
-        localStorage.setItem("refreshToken", JSON.stringify(data.refreshToken));
-        location.href = "/";
+        if (typeof window !== "undefined") {
+          localStorage.setItem("user", JSON.stringify(data.user));
+          localStorage.setItem("accessToken", JSON.stringify(data.accessToken));
+          localStorage.setItem(
+            "refreshToken",
+            JSON.stringify(data.refreshToken)
+          );
+          location.href = "/";
+        }
       } else {
         setPassword("");
         setEmail("");
-        location.href = "/error";
+        if (typeof window !== "undefined") {
+          location.href = "/error";
+        }
       }
     }
   };
