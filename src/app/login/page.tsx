@@ -11,11 +11,11 @@ const Login = (props: Props) => {
   const [password, setPassword] = useState<String>();
   const [passwordErr, setPasswordErr] = useState(false);
   const [seePass, setSeePass] = useState<boolean>(false);
-  const storedUser = window.localStorage.getItem("user");
+  const storedUser = localStorage.getItem("user");
   const parsedUser = storedUser ? JSON.parse(storedUser) : null;
   useEffect(() => {
     if (parsedUser) {
-      window.location.href = "/";
+      location.href = "/";
     }
   });
   const Login = async (e: any) => {
@@ -40,20 +40,14 @@ const Login = (props: Props) => {
     }
     if (res.ok) {
       if (data.user.role === "admin") {
-        window.localStorage.setItem("user", JSON.stringify(data.user));
-        window.localStorage.setItem(
-          "accessToken",
-          JSON.stringify(data.accessToken)
-        );
-        window.localStorage.setItem(
-          "refreshToken",
-          JSON.stringify(data.refreshToken)
-        );
-        window.location.href = "/";
+        localStorage.setItem("user", JSON.stringify(data.user));
+        localStorage.setItem("accessToken", JSON.stringify(data.accessToken));
+        localStorage.setItem("refreshToken", JSON.stringify(data.refreshToken));
+        location.href = "/";
       } else {
         setPassword("");
         setEmail("");
-        window.location.href = "/error";
+        location.href = "/error";
       }
     }
   };

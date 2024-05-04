@@ -49,12 +49,12 @@ export interface IUser {
 }
 
 const App: FC = () => {
-  const storedUser = window.localStorage.getItem("user");
+  const storedUser = localStorage.getItem("user");
   const parsedUser = storedUser ? JSON.parse(storedUser) : null;
   const [user, setUser] = useState<IUser | null>(parsedUser);
   useEffect(() => {
     if (!user) {
-      window.location.href = "/login";
+      location.href = "/login";
     }
   }, [user]);
   const box1 = useRef<HTMLElement>(null);
@@ -78,7 +78,7 @@ const App: FC = () => {
         method: "GET",
         headers: {
           Authorization: `${JSON.parse(
-            window.localStorage.getItem("accessToken") || ""
+            localStorage.getItem("accessToken") || ""
           )}`,
           "Content-Type": "application/json",
         },
@@ -93,18 +93,18 @@ const App: FC = () => {
             method: "GET",
             headers: {
               Authorization: `${JSON.parse(
-                window.localStorage.getItem("refreshToken") || ""
+                localStorage.getItem("refreshToken") || ""
               )}`,
               "Content-Type": "application/json",
             },
           });
           data = await response.json();
           if (response.ok) {
-            window.localStorage.setItem(
+            localStorage.setItem(
               "refreshToken",
               JSON.stringify(data.refresh_token)
             );
-            window.localStorage.setItem(
+            localStorage.setItem(
               "accessToken",
               JSON.stringify(data.access_token)
             );
@@ -112,17 +112,17 @@ const App: FC = () => {
               method: "GET",
               headers: {
                 Authorization: `${JSON.parse(
-                  window.localStorage.getItem("accessToken") || ""
+                  localStorage.getItem("accessToken") || ""
                 )}`,
                 "Content-Type": "application/json",
               },
             });
             if (!response.ok) {
-              window.location.href = "/error";
+              location.href = "/error";
             }
             data = await response.json();
           } else {
-            window.location.href = "/login";
+            location.href = "/login";
           }
         }
       }
@@ -259,10 +259,10 @@ const App: FC = () => {
           </div>
           <TbLogout
             onClick={() => {
-              window.localStorage.removeItem("user");
-              window.localStorage.removeItem("accessToken");
-              window.localStorage.removeItem("refreshToken");
-              window.location.href = "/login";
+              localStorage.removeItem("user");
+              localStorage.removeItem("accessToken");
+              localStorage.removeItem("refreshToken");
+              location.href = "/login";
             }}
             className="text-[1.7rem] cursor-pointer"
           />
