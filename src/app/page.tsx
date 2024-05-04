@@ -6,7 +6,7 @@ import { FaCartShopping } from "react-icons/fa6";
 import { FaUsers } from "react-icons/fa";
 import { PiPackageFill } from "react-icons/pi";
 import { FaUserTie } from "react-icons/fa";
-import ChartComponent from "@/component/ChartComponent";
+import ChartComponent from "../component/ChartComponent";
 import { useState, useEffect, useRef } from "react";
 
 export interface IPurchase {
