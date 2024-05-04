@@ -1,7 +1,4 @@
 "use client";
-import ErrorB from "../images/Error/OppsB.png";
-import ErrorBl from "../images/Error/OppsBl.png";
-
 interface Props {}
 
 export default function NotFound(props: Props) {

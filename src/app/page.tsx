@@ -35,15 +35,6 @@ export interface IPurchase {
   }[];
 }
 
-export enum ERole {
-  USER = "user",
-  SPECIALIST = "specialist",
-  SELLER = "seller",
-  FREELANCER = "freelancer",
-  ADMIN = "admin",
-  ORGANISME = "organisme",
-}
-
 export interface IUser {
   _id: string;
   firstName: string;
@@ -54,7 +45,7 @@ export interface IUser {
     public_id: string;
     url: string;
   };
-  role: ERole;
+  role: string;
 }
 
 const App: FC = () => {
