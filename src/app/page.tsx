@@ -80,10 +80,10 @@ const App: FC = () => {
   const [purchases, setPurchases] = useState<IPurchase[]>();
   const getPurchases = async () => {
     try {
-      let response = await fetch("http://localhost:8000/admin-purchases", {
+      const response = await fetch("/admin-purchases", {
         method: "GET",
         headers: {
-          Authorization: `${
+          Authorization: `Bearer ${
             typeof window !== "undefined"
               ? JSON.parse(localStorage.getItem("accessToken") || "")
               : ""
@@ -91,72 +91,31 @@ const App: FC = () => {
           "Content-Type": "application/json",
         },
       });
-      let data = await response.json();
+      const data = await response.json();
       if (!response.ok) {
         if (
-          (data.err as string).includes("Access Token expired") ||
-          (data.err as string).includes("jwt expired")
+          (data.err as string).includes("Access token not provided") ||
+          (data.err as string).includes("Please the Id is deadline")
         ) {
-          response = await fetch("http://localhost:8000/refresh_token", {
-            method: "GET",
-            headers: {
-              Authorization: `${
-                typeof window !== "undefined"
-                  ? JSON.parse(localStorage.getItem("refreshToken") || "")
-                  : ""
-              }`,
-              "Content-Type": "application/json",
-            },
-          });
-          data = await response.json();
-          if (response.ok) {
-            if (typeof window !== "undefined") {
-              localStorage.setItem(
-                "refreshToken",
-                JSON.stringify(data.refresh_token)
-              );
-              localStorage.setItem(
-                "accessToken",
-                JSON.stringify(data.access_token)
-              );
-            }
-
-            response = await fetch("http://localhost:8000/admin-purchases", {
-              method: "GET",
-              headers: {
-                Authorization: `${
-                  typeof window !== "undefined"
-                    ? JSON.parse(localStorage.getItem("accessToken") || "")
-                    : ""
-                }`,
-                "Content-Type": "application/json",
-              },
-            });
-            if (!response.ok) {
-              if (typeof window !== "undefined") {
-                location.href = "/error";
-              }
-            }
-            data = await response.json();
-          } else {
-            if (typeof window !== "undefined") {
-              location.href = "/login";
-            }
+          if (typeof window !== "undefined") {
+            window.location.href = "/login";
           }
         }
+        if (response.ok) {
+          setMonths(data.analyticsUsers.months);
+          setPurchasesData(data.analyticsUsers.counts);
+          setPurchases(data.purchases);
+          setTotalePlants(data.totalePlants);
+          setTotaleSales(data.totaleSales);
+          setTotaleSellers(data.totaleSellers);
+          setUsers(data.users);
+          setVisitorData(data.visitorAnalytics.counts);
+          setTotaleUsers(data.totaleUsers);
+          setTotaleVisitor(data.totaleVisitor);
+        }
       }
-      setMonths(data.analyticsUsers.months);
-      setPurchasesData(data.analyticsUsers.counts);
-      setPurchases(data.purchases);
-      setTotalePlants(data.totalePlants);
-      setTotaleSales(data.totaleSales);
-      setTotaleSellers(data.totaleSellers);
-      setUsers(data.users);
-      setVisitorData(data.visitorAnalytics.counts);
-      setTotaleUsers(data.totaleUsers);
-      setTotaleVisitor(data.totaleVisitor);
-    } catch (error: any) {
-      console.error("Error fetching data:", error.message);
+    } catch (err: any) {
+      console.log(err.message);
     }
   };
   useEffect(() => {
@@ -280,7 +239,6 @@ const App: FC = () => {
             onClick={() => {
               if (typeof window !== "undefined") {
                 localStorage.removeItem("user");
-                localStorage.removeItem("accessToken");
                 localStorage.removeItem("refreshToken");
                 window.location.href = "/login";
               }

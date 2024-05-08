@@ -6,7 +6,8 @@
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
-  --color-primary: #009245;
+  /* --color-primary: #009245; */
+  --color-primary: red;
 }
 
 @media (prefers-color-scheme: dark) {

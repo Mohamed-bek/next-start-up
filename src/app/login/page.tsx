@@ -47,7 +47,6 @@ const Login = (props: Props) => {
       if (data.user.role === "admin") {
         if (typeof window !== "undefined") {
           localStorage.setItem("user", JSON.stringify(data.user));
-          localStorage.setItem("accessToken", JSON.stringify(data.accessToken));
           localStorage.setItem(
             "refreshToken",
             JSON.stringify(data.refreshToken)
